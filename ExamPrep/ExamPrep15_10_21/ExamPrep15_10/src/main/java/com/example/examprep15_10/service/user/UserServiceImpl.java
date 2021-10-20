@@ -2,10 +2,14 @@ package com.example.examprep15_10.service.user;
 
 import com.example.examprep15_10.model.entity.user.User;
 import com.example.examprep15_10.model.service.UserServiceModel;
+import com.example.examprep15_10.model.view.UserViewModel;
 import com.example.examprep15_10.repository.user.UserRepository;
 import com.example.examprep15_10.security.CurrentUser;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -43,5 +47,19 @@ public class UserServiceImpl implements UserService{
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElse(null);
+    }
+
+    @Override
+    public List<UserViewModel> findAllUsersAndOrderCountDesc() {
+        return userRepository.findAllByOrderByOrdersDescending()
+                .stream()
+                .map(user -> {
+                    UserViewModel userViewModel = new UserViewModel();
+                    userViewModel.setUsername(user.getUsername());
+                    userViewModel.setOrderCount(user.getOrders().size());
+
+                    return userViewModel;
+                })
+                .collect(Collectors.toList());
     }
 }

@@ -4,6 +4,7 @@ import com.example.examprep15_10.model.entity.BaseEntity;
 import com.example.examprep15_10.model.entity.category.Category;
 import com.example.examprep15_10.model.entity.user.User;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

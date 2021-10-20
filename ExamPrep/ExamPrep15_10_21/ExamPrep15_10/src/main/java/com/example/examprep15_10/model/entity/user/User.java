@@ -1,10 +1,10 @@
 package com.example.examprep15_10.model.entity.user;
 
 import com.example.examprep15_10.model.entity.BaseEntity;
+import com.example.examprep15_10.model.entity.order.Order;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -15,6 +15,7 @@ public class User extends BaseEntity {
     private String username;
     private String email;
     private String password;
+    private Set<Order> orders;
 
     public User() {
     }
@@ -62,5 +63,14 @@ public class User extends BaseEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 }

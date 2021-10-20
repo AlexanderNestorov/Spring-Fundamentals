@@ -1,20 +1,26 @@
 package com.example.examprep15_10.controller;
 
+import com.example.examprep15_10.model.view.OrderViewModel;
 import com.example.examprep15_10.security.CurrentUser;
 import com.example.examprep15_10.service.order.OrderService;
+import com.example.examprep15_10.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Controller
 public class HomeController {
 
     private final CurrentUser currentUser;
     private final OrderService orderService;
+    private final UserService userService;
 
-    public HomeController(CurrentUser currentUser, OrderService orderService) {
+    public HomeController(CurrentUser currentUser, OrderService orderService, UserService userService) {
         this.currentUser = currentUser;
         this.orderService = orderService;
+        this.userService = userService;
     }
 
     @GetMapping()
@@ -24,7 +30,17 @@ public class HomeController {
             return "index";
         }
 
-        model.addAttribute("orders", orderService.findAllOrdersByPriceDesc());
+        List<OrderViewModel> orders = orderService.findAllOrdersByPriceDesc();
+
+        model.addAttribute("orders", orders);
+        model.addAttribute("totalTime", orders
+                .stream()
+                .map(orderViewModel -> orderViewModel.getCategory().getNeededTime())
+                .reduce(Integer::sum)
+                .orElse(0)
+        );
+
+        model.addAttribute("users", userService.findAllUsersAndOrderCountDesc());
 
         return "home";
     }

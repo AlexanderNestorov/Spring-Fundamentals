@@ -1,5 +1,6 @@
 package com.example.examprep15_10.model.entity.category;
 
+
 import com.example.examprep15_10.model.entity.BaseEntity;
 
 import javax.persistence.*;

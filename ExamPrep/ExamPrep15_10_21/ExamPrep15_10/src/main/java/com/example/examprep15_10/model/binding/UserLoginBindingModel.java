@@ -10,7 +10,7 @@ public class UserLoginBindingModel {
     public UserLoginBindingModel() {
     }
 
-    @Size(min = 5, max = 20)
+    @Size(min = 5, max = 20, message = "Username must be between 5 and 20 characters!")
     public String getUsername() {
         return username;
     }
@@ -19,7 +19,7 @@ public class UserLoginBindingModel {
         this.username = username;
     }
 
-    @Size(min = 3)
+    @Size(min = 3, message = "Password must be at least 3 characters!")
     public String getPassword() {
         return password;
     }
