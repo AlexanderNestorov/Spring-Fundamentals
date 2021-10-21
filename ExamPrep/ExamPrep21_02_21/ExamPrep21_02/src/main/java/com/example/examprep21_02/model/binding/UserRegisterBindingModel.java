@@ -1,6 +1,7 @@
 package com.example.examprep21_02.model.binding;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class UserRegisterBindingModel {
@@ -50,6 +51,7 @@ public class UserRegisterBindingModel {
         this.confirmPassword = confirmPassword;
     }
 
+    @NotNull(message = "Email can't be null")
     @Email(message = "Must be valid email")
     public String getEmail() {
         return email;

@@ -2,6 +2,7 @@ package com.example.examprep21_02.service;
 
 import com.example.examprep21_02.model.entity.Artist;
 import com.example.examprep21_02.model.entity.ArtistNameEnum;
+import com.example.examprep21_02.model.entity.GenreNameEnum;
 import com.example.examprep21_02.repository.ArtistRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +36,12 @@ public class ArtistServiceImpl implements ArtistService {
 
                     artistRepository.save(artist);
                 });
+    }
+
+    @Override
+    public Artist findByArtistNameEnum(ArtistNameEnum artistNameEnum) {
+        return artistRepository
+                .findByName(artistNameEnum)
+                .orElse(null);
     }
 }
