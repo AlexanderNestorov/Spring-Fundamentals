@@ -1,19 +1,23 @@
 package com.example.examprep27_06.controller;
 
+import com.example.examprep27_06.model.view.ProductViewModel;
 import com.example.examprep27_06.security.CurrentUser;
-import com.example.examprep27_06.service.UserService;
+import com.example.examprep27_06.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Controller
 public class HomeController {
     private final CurrentUser currentUser;
-    private final UserService userService;
+    private final ProductService productService;
 
-    public HomeController(CurrentUser currentUser, UserService userService) {
+    public HomeController(CurrentUser currentUser, ProductService productService) {
         this.currentUser = currentUser;
-        this.userService = userService;
+        this.productService = productService;
     }
 
     @GetMapping()
@@ -23,17 +27,15 @@ public class HomeController {
             return "index";
         }
 
-//        List<OrderViewModel> orders = orderService.findAllOrdersByPriceDesc();
-//
-//        model.addAttribute("orders", orders);
-//        model.addAttribute("totalTime", orders
-//                .stream()
-//                .map(orderViewModel -> orderViewModel.getCategory().getNeededTime())
-//                .reduce(Integer::sum)
-//                .orElse(0)
-//        );
-//
-//        model.addAttribute("users", userService.findAllUsersAndOrderCountDesc());
+        List<ProductViewModel> products = productService.findAllProducts();
+
+        model.addAttribute("products", products);
+        model.addAttribute("totalPrice", products
+                .stream()
+                .map(ProductViewModel::getPrice)
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.valueOf(0))
+        );
 
         return "home";
     }
